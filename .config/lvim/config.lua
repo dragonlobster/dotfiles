@@ -11,7 +11,7 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
-lvim.colorscheme = "catppuccin-mocha"
+lvim.colorscheme = "catppuccin-macchiato"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -59,6 +59,11 @@ lvim.keys.normal_mode["<C-u>"] = "<C-u>zz"
 
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+
+lvim.builtin.which_key.setup.window.border = "double"
+
+lvim.builtin.which_key.mappings["l"]["R"] = { "<cmd>LspRestart<cr>", "Restart" }
+
 lvim.builtin.which_key.mappings["t"] = {
     name = "+Trouble",
     t = { "<cmd>TroubleToggle<cr>", "Toggle" },
@@ -79,9 +84,10 @@ lvim.builtin.terminal.active = true
 
 lvim.builtin.lir.active = false
 
--- nvim js debugger
+-- dap for js, ts, godot
+local dap = require("dap")
 for _, language in ipairs({ "typescript", "javascript" }) do
-    require("dap").configurations[language] = {
+    dap.configurations[language] = {
         -- node normal debug
         -- {
         --     type = "pwa-node",
@@ -117,6 +123,23 @@ for _, language in ipairs({ "typescript", "javascript" }) do
     }
 end
 
+dap.adapters.godot = {
+    type = "server",
+    host = '127.0.0.1',
+    port = 6006,
+}
+
+dap.configurations.gdscript = {
+    {
+        type = "godot",
+        request = "launch",
+        name = "Launch scene",
+        project = "${workspaceFolder}",
+        launch_scene = true,
+    }
+}
+
+
 -- nvim tree
 local function open_nvim_tree(data)
     -- buffer is a directory
@@ -144,7 +167,7 @@ lvim.autocommands = {
 
 --lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
-lvim.builtin.nvimtree.setup.hijack_directories = true
+lvim.builtin.nvimtree.setup.hijack_directories.enable = true
 lvim.builtin.nvimtree.setup.actions.open_file.resize_window = true
 
 -- bufferline
@@ -169,10 +192,15 @@ lvim.builtin.treesitter.ensure_installed = {
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
+
+-- lsp godot
+require'lspconfig'.gdscript.setup {
+    filetypes = { "gd", "gdscript", "gdscript3", "gdscript4" },
+}
+
 -- generic LSP settings
 
--- -- make sure server will always be installed even if the server is in skipped_servers list
--- lvim.lsp.installer.setup.ensure_installed = {
+-- -- make sure server will always be installed even if the server is in skippe = {
 --     "sumeko_lua",
 --     "jsonls",
 -- }
@@ -249,6 +277,14 @@ lvim.plugins = {
     { "rebelot/kanagawa.nvim" },
     { "catppuccin/nvim" },
     { "folke/trouble.nvim" },
+    -- {
+    --     "chentoast/marks.nvim",
+    --     config = function()
+    --         require("marks").setup({
+    --             default_mappings = true
+    --         })
+    --     end
+    -- },
     {
         "ggandor/leap.nvim",
         config = function()
@@ -263,25 +299,19 @@ lvim.plugins = {
     },
     {
         "folke/todo-comments.nvim",
-        requires = "nvim-lua/plenary.nvim",
+        dependencies = "nvim-lua/plenary.nvim",
         config = function()
             require("todo-comments").setup()
         end
     },
     {
-        "chentoast/marks.nvim",
-        config = function()
-            require("marks").setup()
-        end
-    },
-    {
         "microsoft/vscode-js-debug",
-        opt = true,
-        run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
+        lazy = true,
+        build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
     },
     {
         "mxsdev/nvim-dap-vscode-js",
-        requires = "mfussenegger/nvim-dap",
+        dependencies = "mfussenegger/nvim-dap",
         config = function()
             require("dap-vscode-js").setup({
                 -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
@@ -309,10 +339,17 @@ lvim.plugins = {
         end
     },
     {
-        "akinsho/git-conflict.nvim",
-        tag = "*",
+        "zbirenbaum/copilot.lua",
+        event = "InsertEnter",
+        cmd = "Copilot",
         config = function()
-            require("git-conflict").setup()
+            require("copilot").setup({})
+        end,
+    },
+    {
+        "zbirenbaum/copilot-cmp",
+        config = function()
+            require("copilot_cmp").setup()
         end
     }
 }
@@ -331,8 +368,8 @@ lvim.plugins = {
 --   end,
 -- })
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
-  command = "if mode() != 'c' | checktime | endif",
-  pattern = { "*" },
+    command = "if mode() != 'c' | checktime | endif",
+    pattern = { "*" },
 })
 
 -- Spacing/Indent
