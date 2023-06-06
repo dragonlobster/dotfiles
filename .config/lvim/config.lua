@@ -12,6 +12,9 @@ an executable
 lvim.log.level = "warn"
 lvim.format_on_save = false
 lvim.colorscheme = "catppuccin-macchiato"
+-- lvim.colorscheme = "tokyonight"
+-- lvim.colorscheme = "aquarium-vim"
+-- lvim.colorscheme = "rose-pine"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -28,8 +31,12 @@ lvim.keys.normal_mode["0"] = "^"
 lvim.keys.normal_mode["^"] = "0"
 
 -- zz
-lvim.keys.normal_mode["<C-d>"] = "<C-d>zz"
-lvim.keys.normal_mode["<C-u>"] = "<C-u>zz"
+lvim.keys.normal_mode["<C-d>"] = "15jzz"
+lvim.keys.normal_mode["<C-u>"] = "15kzz"
+
+-- scroll more
+lvim.keys.normal_mode["<C-e>"] = "5<C-e>"
+lvim.keys.normal_mode["<C-y>"] = "5<C-y>"
 
 --lvim.keys.normal_mode["<C-e>"] = "<C-e>zz"
 --lvim.keys.normal_mode["<C-y>"] = "<C-y>zz"
@@ -125,7 +132,7 @@ end
 
 dap.adapters.godot = {
     type = "server",
-    host = '127.0.0.1',
+    host = "127.0.0.1",
     port = 6006,
 }
 
@@ -138,7 +145,6 @@ dap.configurations.gdscript = {
         launch_scene = true,
     }
 }
-
 
 -- nvim tree
 local function open_nvim_tree(data)
@@ -194,7 +200,7 @@ lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 
 -- lsp godot
-require'lspconfig'.gdscript.setup {
+require 'lspconfig'.gdscript.setup {
     filetypes = { "gd", "gdscript", "gdscript3", "gdscript4" },
 }
 
@@ -274,7 +280,6 @@ require'lspconfig'.gdscript.setup {
 
 -- Additional Plugins
 lvim.plugins = {
-    { "rebelot/kanagawa.nvim" },
     { "catppuccin/nvim" },
     { "folke/trouble.nvim" },
     -- {
