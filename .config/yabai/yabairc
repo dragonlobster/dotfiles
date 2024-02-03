@@ -43,18 +43,18 @@ yabai -m config mouse_follows_focus         off
 yabai -m config focus_follows_mouse         off
 
 yabai -m config window_topmost              off
-yabai -m config window_opacity              on
+yabai -m config window_opacity              off
 yabai -m config window_shadow               off
 
-yabai -m config window_border               on
-yabai -m config window_border_width         3
-yabai -m config window_border_radius        12
-yabai -m config window_border_blur          on
-yabai -m config window_border_hidpi         on
+yabai -m config window_border               off
+# yabai -m config window_border_width         3
+# yabai -m config window_border_radius        12
+# yabai -m config window_border_blur          on
+# yabai -m config window_border_hidpi         on
 yabai -m config window_animation_duration   0.1
 yabai -m config window_animation_frame_rate 120
-yabai -m config active_window_border_color  0xff7aa2f7
-yabai -m config normal_window_border_color  0x80565f89
+# yabai -m config active_window_border_color  0xff7aa2f7
+# yabai -m config normal_window_border_color  0x80565f89
 yabai -m config insert_feedback_color       0x00d75f5f
 
 yabai -m config active_window_opacity       1.0
@@ -68,11 +68,11 @@ yabai -m config mouse_action1               move
 yabai -m config mouse_action2               resize
 
 # ===== Rules ==================================
-
 yabai -m rule --add label="Finder" app="^Finder$" title=".*" sticky=on manage=off
+yabai -m rule --add label="licecap" app="^licecap$" title=".*" manage=off
 yabai -m rule --add label="Cloudflare WARP" app="^Cloudflare WARP$" title=".*" sticky=on manage=off
 yabai -m rule --add label="MonitorControl" app="^MonitorControl$" title=".*" sticky=on manage=off
-yabai -m rule --add label="Godot" app="^Godot$" title=".*" manage=off
+yabai -m rule --add label="Godot" app="^Godot$" title=".*DEBUG" manage=off
 yabai -m rule --add label="Preview" app="^Preview$" manage=off
 yabai -m rule --add label="Safari" app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
 yabai -m rule --add label="Firefox Developer Edition" app="^Firefox Developer Edition$" title="^(Library)$" manage=off
@@ -86,17 +86,7 @@ yabai -m rule --add label="Dictionary" app="^Dictionary$" manage=off
 yabai -m rule --add label="mpv" app="^mpv$" manage=off
 yabai -m rule --add label="Software Update" title="Software Update" manage=off
 yabai -m rule --add label="About This Mac" app="System Information" title="About This Mac" manage=off
-
-# ===== Signals ================================
-
-# ubersicht
-# yabai -m signal --add event=application_front_switched action="${ubersicht_spaces_refresh_command}"
-# yabai -m signal --add event=display_changed action="${ubersicht_spaces_refresh_command}"
-# yabai -m signal --add event=space_changed action="${ubersicht_spaces_refresh_command}"
-# yabai -m signal --add event=window_created action="${ubersicht_spaces_refresh_command}"
-# yabai -m signal --add event=window_destroyed action="${ubersicht_spaces_refresh_command}"
-# yabai -m signal --add event=window_focused action="${ubersicht_spaces_refresh_command}"
-# yabai -m signal --add event=window_title_changed action="${ubersicht_spaces_refresh_command}"
+yabai -m rule --add label="Stats" app="Stats" manage=off
 
 set +x
 printf "yabai: configuration loaded...\\n"
