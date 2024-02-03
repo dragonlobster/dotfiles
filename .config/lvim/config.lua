@@ -88,6 +88,7 @@ lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 -- lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
+lvim.builtin.terminal.persist_mode = false
 
 lvim.builtin.lir.active = false
 
@@ -282,24 +283,10 @@ require 'lspconfig'.gdscript.setup {
 lvim.plugins = {
     { "catppuccin/nvim" },
     { "folke/trouble.nvim" },
-    -- {
-    --     "chentoast/marks.nvim",
-    --     config = function()
-    --         require("marks").setup({
-    --             default_mappings = true
-    --         })
-    --     end
-    -- },
     {
         "ggandor/leap.nvim",
         config = function()
             require("leap").add_default_mappings()
-        end
-    },
-    {
-        "ellisonleao/glow.nvim",
-        config = function()
-            require("glow").setup()
         end
     },
     {
@@ -320,7 +307,7 @@ lvim.plugins = {
         config = function()
             require("dap-vscode-js").setup({
                 -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
-                debugger_path = "/Users/fake/.local/share/lunarvim/site/pack/packer/opt/vscode-js-debug",    -- Path to vscode-js-debug installation.
+                debugger_path = "/Users/fake/.local/share/lunarvim/site/pack/lazy/opt/vscode-js-debug",    -- Path to vscode-js-debug installation.
                 -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
                 adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" }, -- which adapters to register in nvim-dap
                 -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
@@ -343,20 +330,20 @@ lvim.plugins = {
             })
         end
     },
-    {
-        "zbirenbaum/copilot.lua",
-        event = "InsertEnter",
-        cmd = "Copilot",
-        config = function()
-            require("copilot").setup({})
-        end,
-    },
-    {
-        "zbirenbaum/copilot-cmp",
-        config = function()
-            require("copilot_cmp").setup()
-        end
-    }
+    -- {
+    --     "zbirenbaum/copilot.lua",
+    --     event = "InsertEnter",
+    --     cmd = "Copilot",
+    --     config = function()
+    --         require("copilot").setup({})
+    --     end,
+    -- },
+    -- {
+    --     "zbirenbaum/copilot-cmp",
+    --     config = function()
+    --         require("copilot_cmp").setup()
+    --     end
+    -- }
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
